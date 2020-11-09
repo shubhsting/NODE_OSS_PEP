@@ -20,9 +20,6 @@ function readFilePromise(filePath){
 
 
 
-Email="jerolo5578@appnox.com";
-Password="Shubham@123"
-
 let pendingpromise = readfilePromise("./fi1.txt");
 
 pendingpromise.then(function (data) {

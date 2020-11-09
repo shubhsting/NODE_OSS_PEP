@@ -13,8 +13,6 @@ let browserPendingPromise = puppeteer.launch({
 });
 
 
-
-
 browserPendingPromise.then(function (browser) {
     window = browser;
     let allPagesPromise = browser.pages();
@@ -79,8 +77,8 @@ browserPendingPromise.then(function (browser) {
             completeLinks.push(completLink);
         }
 
-        let oneQuestionSolvedPromise = solveOneQuestion(completeLinks[2]);
-        for (let i = 3; i < completeLinks.length; i++) {
+        let oneQuestionSolvedPromise = solveOneQuestion(completeLinks[0]);
+        for (let i = 1; i < completeLinks.length; i++) {
             oneQuestionSolvedPromise = oneQuestionSolvedPromise.then(function () {
                 let nextQuesSolvedPromise = solveOneQuestion(completeLinks[i]);
                 return nextQuesSolvedPromise;

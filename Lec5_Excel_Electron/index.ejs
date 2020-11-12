@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="menu">menu</div>
+    <div class="menu-options">
+       
+    </div>
+    <div class="formula-input"> 
+        <input type="text" id="address" disabled>
+        <input type="text" id="formula">
+    </div>
+    <div class="cells">
+        <% for(let i=0 ; i<100 ; i++){%>
+            <div class="row">
+                <%for(let j=0 ; j<26 ; j++) {%>
+                    <div class="cell" contenteditable="true" rid = <%=i%>  cid = "<%= j%>"></div>
+                <%}%>
+            </div>
+        <%}%>
+
+    </div>
+    <div class="sheets">sheets</div>
+    <script src="./script.js"></script>
+</body>
+
+</html>

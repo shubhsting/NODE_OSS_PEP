@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const challenges = require("./challenges");
-const id = "goxedev915@soowz.com";
-const pw = "12345678";
+const id = "jerolo5578@appnox.com";
+const pw = "Shubham@123";
 
 let tab;
 // open a browser instance
@@ -70,6 +70,7 @@ async function createChallenge(challenge) {
     await tab.waitForSelector('#name', { visible: true });
     await tab.type("#name", challengeName);
     await tab.type("#preview", description);
+    // await page.waitForSelector('#problem_statement-container .CodeMirror textarea');
     await tab.type('#problem_statement-container .CodeMirror textarea', problemStatement);
     await tab.type('#input_format-container .CodeMirror textarea', inputFormat);
     await tab.type('#constraints-container .CodeMirror textarea', constraints);

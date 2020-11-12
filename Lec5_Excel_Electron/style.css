@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+html,body{
+    padding:0px;
+    margin:0px;
+}
+.menu{
+    border: 1px solid black;
+    height: 40px;   
+}
+
+.menu-options{
+    border: 1px solid black;
+    height: 40px;
+}
+.row{
+    display: flex;
+}
+.formula-input{
+    border: 1px solid black;
+    height: 30px;
+}
+.cells{
+    height: calc(100vh - 140px);
+    background-color: lightcyan;
+    overflow: auto;
+}
+.cell{
+    border: 1px solid;
+    min-height: 25px;
+    min-width: 70px;
+    border-radius: 2px;
+}
+.sheets{
+    border: 1px solid black;
+    height: 30px;
+}

@@ -51,7 +51,7 @@ $("document").ready(function () {
             console.log(db);
         }
     })
-
+    
 })
 
 

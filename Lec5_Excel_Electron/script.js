@@ -3,15 +3,15 @@ const $ = require("jquery");
 let db;
 let lsc;
 $("document").ready(function () {
-    
+
     init();
 
 
 
     $('.cell').on("click", function () {
-        let rowId = Number($(this).attr("rid")) + 1;
+        let rowId = Number($(this).attr("rid"));
         let colId = Number($(this).attr("cid"));
-        let currObj=db[rowId][colId];
+        let currObj = db[rowId][colId];
         $("#address").val(currObj.name);
         $("#formula").val(currObj.formula);
     });
@@ -19,13 +19,15 @@ $("document").ready(function () {
 
 
     $('.cell').on("blur", function () {
-        lsc=this;
+        lsc = this;
         let val = $(this).text();
         let rowId = Number($(this).attr("rid"));
         let colId = Number($(this).attr("cid"));
         let cellObject = db[rowId][colId];
         if (cellObject.value != val) {
             cellObject.value = val;
+            removecurrfromallparentschildren(cellObject);
+            updateAllDependentChildren(cellObject);
         }
         console.log(db);
     });
@@ -44,19 +46,39 @@ $("document").ready(function () {
         let activeObject = db[rowId][colId];
 
         if (activeObject.formula != nformula) {
-            let nvalue = calculatevalueForFormula(nformula);
+
+            if (traverseandCheckCycle(nformula, activeObject)) {
+                alert("Cyclic sequence!!");
+                return;
+            }
+
+
+            removecurrfromallparentschildren(activeObject);
+            let nvalue = calculatevalueForFormula(nformula, activeObject);
             activeObject.formula = nformula;
             activeObject.value = nvalue;
+            updateAllDependentChildren(activeObject);
             $(lsc).text(nvalue);
             console.log(db);
         }
     })
-    
+
 })
 
 
 
-function calculatevalueForFormula(formula) {
+
+
+
+
+
+
+
+// =======================UTILITIES=======================
+
+
+
+function traverseandCheckCycle(formula, activeObj) {
     let fcomponents = formula.split(" ");
     //[ ( , A1 , + , A2 , ) ]
     for (let i = 0; i < fcomponents.length; i++) {
@@ -65,6 +87,32 @@ function calculatevalueForFormula(formula) {
             let { rowId, colId } = getrcidfromAddress(smallcomp);
 
             let parentObject = db[rowId][colId];//database
+
+            let res = checkforCycle(activeObj, smallcomp);
+            if (res) return true;
+        }
+    }
+    return false;
+}
+
+function calculatevalueForFormula(formula, activeObject) {
+    let fcomponents = formula.split(" ");
+    //[ ( , A1 , + , A2 , ) ]
+    for (let i = 0; i < fcomponents.length; i++) {
+        let smallcomp = fcomponents[i];
+        if (smallcomp[0] >= "A" && smallcomp[0] <= "Z") {
+            let { rowId, colId } = getrcidfromAddress(smallcomp);
+
+            let parentObject = db[rowId][colId];//database
+
+
+
+            if (activeObject) {
+                let checkcycle = checkforCycle(activeObject, smallcomp);
+                if (checkcycle) return -1;
+                addcurrentinchildrenofparent(parentObject, activeObject.name);
+                addparentinparentofcurrent(activeObject, smallcomp);
+            }
             let parentvalue = parentObject.value; //value aa gyi
             formula = formula.replace(smallcomp, parentvalue);
         }
@@ -75,12 +123,63 @@ function calculatevalueForFormula(formula) {
     return value;
 }
 
+function checkforCycle(activeObj, parentname) {
+    let res = false;
+    for (let i = 0; i < activeObj.children.length; i++) {
+        if (activeObj.children[i] == parentname) return true;
+        let { rowId, colId } = getrcidfromAddress(activeObj.children[i]);
+        let childobj = db[rowId][colId];
+        res = res || checkforCycle(childobj, parentname);
+    }
+    return res;
+}
+
+function removecurrfromallparentschildren(activeObj) {
+    //parents[A1,A2]
+    for (let i = 0; i < activeObj.parents.length; i++) {
+        let oneparent = activeObj.parents[i];
+        let { rowId, colId } = getrcidfromAddress(oneparent);
+        let oneparentobj = db[rowId][colId];
+        let filteredparentobj = oneparentobj.children.filter(function (element) {
+            return element != activeObj.name;
+        });
+        db[rowId][colId].children = filteredparentobj;
+    }
+
+
+    activeObj.parents = [];
+}
+
+function addparentinparentofcurrent(activeobj, parentname) {
+    activeobj.parents.push(parentname);
+}
+
+function addcurrentinchildrenofparent(parentObject, childname) {
+    parentObject.children.push(childname);
+}
 
 function getrcidfromAddress(address) {
     let rowId = Number(address.substring(1)) - 1;
     let colId = address.charCodeAt(0) - 65;
     return { rowId: rowId, colId: colId };
 }
+
+
+function updateAllDependentChildren(cellObject) {
+    for (let i = 0; i < cellObject.children.length; i++) {
+        let { rowId, colId } = getrcidfromAddress(cellObject.children[i]);
+        let childobj = db[rowId][colId];
+        let updatedval = calculatevalueForFormula(childobj.formula);
+
+        if (updatedval != childobj.value) {
+            childobj.value = updatedval;
+            $(`.cell[rid=${rowId}][cid=${colId}]`).text(updatedval);
+            updateAllDependentChildren(childobj);
+        }
+    }
+}
+
+
 function init() {
     db = [];
     for (let i = 0; i < 100; i++) {
@@ -90,7 +189,9 @@ function init() {
             let cellObject = {
                 name: cellAddress,
                 value: "",
-                formula: ""
+                formula: "",
+                children: [],
+                parents: []
             }
             rdb.push(cellObject);
         }

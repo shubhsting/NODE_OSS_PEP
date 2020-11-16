@@ -6,6 +6,21 @@ $("document").ready(function () {
 
     init();
 
+    $(".content").on("scroll", function () {
+        let left = $(this).scrollLeft();
+        let top = $(this).scrollTop();
+        // console.log(left+"  "+top);
+        $(".top-row").css("top", top + "px");
+        $(".top-left-cell").css("top", top + "px");
+        $(".top-left-cell").css("left", left + "px");
+        $(".left-col").css("left", left + "px");
+    })
+
+    $(".cell").on("keyup", function () {
+        let height = $(this).height();
+        let rid = $(this).attr("rid");
+        $(`.left-col-cell[cellId=${rid}]`).height(height);
+    })
 
 
     $('.cell').on("click", function () {

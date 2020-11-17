@@ -8,24 +8,21 @@ $("document").ready(function () {
     // ====================top options code start========================
     //new open save
     $('.new').on("click", function () {
-        db = [];
-        for (let i = 0; i < 100; i++) {
-            let rdb = [];
-            for (let j = 0; j < 26; j++) {
-                let cellAddress = String.fromCharCode(65 + j) + (i + 1);
-                let cellObject = {
-                    name: cellAddress,
-                    value: "",
-                    formula: "",
-                    children: [],
-                    parents: []
+        let objrowcol = db[100][26];
+        for (let i = 0; i <= Number(objrowcol.trow); i++) {
+            if (db[i][26].flag) {
+                for (let j = 0; j <= Number(objrowcol.tcol); j++) {
+                    if (db[100][j].flag) {
+                        let curr = $(`.cell[rid=${i}][cid=${j}]`);
+                        $(curr).html("");
+                        $(curr).css("background-color", "white");
+                        $(lsc).css("color", "black");
+                    }
                 }
-                $(`.cell[rid=${i}][cid=${j}]`).html("");
-                rdb.push(cellObject);
             }
-            db.push(rdb);
         }
-        console.log(db);
+
+        init();
 
     })
 
@@ -33,11 +30,15 @@ $("document").ready(function () {
         let filesPath = dialog.showSaveDialogSync();
         let data = fs.readFileSync(filesPath);
         db = JSON.parse(data);
-
-        for (let i = 0; i < 100; i++) {
-            for (let j = 0; j < 26; j++) {
-                let cellObject = db[i][j];
-                $(`.cell[rid=${i}][cid=${j}]`).text(cellObject.value);
+        let objrowcol = db[100][26];
+        for (let i = 0; i <= Number(objrowcol.trow); i++) {
+            if (db[i][26].flag) {
+                for (let j = 0; j <= Number(objrowcol.tcol); j++) {
+                    if (db[100][j].flag) {
+                        let cellObject = db[i][j];
+                        $(`.cell[rid=${i}][cid=${j}]`).text(cellObject.value);
+                    }
+                }
             }
         }
     })
@@ -47,6 +48,104 @@ $("document").ready(function () {
         let data = JSON.stringify(db);
         fs.writeFileSync(filesPath, data);
     })
+
+    $('.file').on("click", function () {
+        $('.home-menu-options').removeClass('active');
+        $('.home').removeClass('active-menu-option');
+        $('.file').addClass('active-menu-option');
+        $('.file-menu-options').addClass('active');
+
+    })
+
+    $('.home').on("click", function () {
+        $('.file-menu-options').removeClass('active');
+        $('.home-menu-options').addClass('active');
+        $('.home').addClass('active-menu-option');
+        $('.file').removeClass('active-menu-option');
+    })
+
+    $('#bold').on("click", function () {
+        let cellObject = getCellObject(lsc);
+        $(lsc).css("font-weight", cellObject.bold ? "normal" : "bold");
+        cellObject.bold = !cellObject.bold;
+
+        //side bar ko adjust krna ....
+        let height = $(lsc).height();
+        let rid = $(lsc).attr("rid");
+        $(`.left-col-cell[cellId=${rid}]`).height(height);
+
+    })
+
+    $('#italic').on("click", function () {
+        let cellObject = getCellObject(lsc);
+        $(lsc).css("font-style", cellObject.italic ? "normal" : "italic");
+        cellObject.italic = !cellObject.italic;
+    })
+
+    $('#underline').on("click", function () {
+        let cellObject = getCellObject(lsc);
+        $(lsc).css("text-decoration", cellObject.underline ? "none" : "underline");
+        cellObject.underline = !cellObject.underline;
+    })
+
+    $("#font-size").on("change", function () {
+        let fontSize = $(this).val();
+        // console.log(fontSize);
+        $(lsc).css("font-size", fontSize + "px");
+        let cellObject = getCellObject(lsc);
+        cellObject.fontSize = fontSize + "px";
+
+    })
+
+    $("#left").on("click", function () {
+        let cellObject = getCellObject(lsc);
+
+        $(lsc).css("text-align", "left");
+        cellObject.textAlign.left = !cellObject.textAlign.left;
+    })
+
+    $("#centre").on("click", function () {
+        let cellObject = getCellObject(lsc);
+
+        $(lsc).css("text-align", "center");
+        cellObject.textAlign.center = !cellObject.textAlign.center;
+    })
+
+    $("#right").on("click", function () {
+        let cellObject = getCellObject(lsc);
+
+        $(lsc).css("text-align", "right");
+        cellObject.textAlign.right = !cellObject.textAlign.right;
+    })
+
+    $('#font-select').on("change", function () {
+        let fonttype = $(this).val();
+        $(lsc).css("font-family", fonttype);
+        let cellObject = getCellObject(lsc);
+        cellObject.fonttype = fonttype;
+    })
+
+    $('#cell-font').on("change", function () {
+        let color = $(this).val();
+        let cellObject = getCellObject(lsc);
+        $(lsc).css("color", color);
+        cellObject.cellfontcolor = color;
+    })
+
+    $('#cell-background').on("change", function () {
+        let color = $(this).val();
+        let cellObject = getCellObject(lsc);
+        $(lsc).css("background-color", color);
+        cellObject.cellbackground = color;
+    })
+
+    function getCellObject(element) {
+        let rowId = Number($(element).attr("rid"));
+        let colId = Number($(element).attr("cid"));
+        let cellObject = db[rowId][colId];
+        return cellObject;
+    }
+    // ===============================top options code end===========================================
 
     //scroll ko adjust
     $(".content").on("scroll", function () {
@@ -66,23 +165,6 @@ $("document").ready(function () {
         $(`.left-col-cell[cellId=${rid}]`).height(height);
     })
 
-    $('.file').on("click", function () {
-        $('.home-menu-options').removeClass('active');
-        $('.home').removeClass('active-menu-option');
-        $('.file').addClass('active-menu-option');
-        $('.file-menu-options').addClass('active');
-
-    })
-
-    $('.home').on("click", function () {
-        $('.file-menu-options').removeClass('active');
-        $('.home-menu-options').addClass('active');
-        $('.home').addClass('active-menu-option');
-        $('.file').removeClass('active-menu-option');
-    })
-
-
-    // ===============================top options code end===========================================
 
 
     $('.cell').on("click", function () {
@@ -103,6 +185,11 @@ $("document").ready(function () {
         let cellObject = db[rowId][colId];
         if (cellObject.value != val) {
             cellObject.value = val;
+            let maxrowcolobj = db[100][26];
+            maxrowcolobj.trow = Math.max(Number(maxrowcolobj.trow), rowId);
+            maxrowcolobj.tcol = Math.max(Number(maxrowcolobj.tcol), colId);
+            db[rowId][26].flag = true;
+            db[100][colId].flag = true;
             removecurrfromallparentschildren(cellObject);
             updateAllDependentChildren(cellObject);
         }
@@ -305,12 +392,39 @@ function init() {
                 value: "",
                 formula: "",
                 children: [],
-                parents: []
+                parents: [],
+                bold: false,
+                italic: false,
+                underline: false,
+                textAlign: { left: true, center: false, right: false },
+                fontSize: "16px",
+                fonttype: "Times New Roman",
+                cellfontcolor: "black",
+                cellbackground: "white"
             }
             rdb.push(cellObject);
         }
+        let rowend = {
+            flag: false
+        }
+        rdb.push(rowend);
         db.push(rdb);
     }
+
+    let finalrow = [];
+    for (let i = 0; i < 26; i++) {
+        let colend = {
+            flag: false
+        }
+        finalrow.push(colend);
+    }
+    //final db[100][26]
+    let rowcolc = {
+        trow: "0",
+        tcol: "0"
+    }
+    finalrow.push(rowcolc);
+    db.push(finalrow);
     console.log(db);
 
 }

@@ -1,11 +1,54 @@
+const fs = require("fs");
 const $ = require("jquery");
-
+const dialog = require('electron').remote.dialog;
 let db;
 let lsc;
 $("document").ready(function () {
-
     init();
+    // ====================top options code start========================
+    //new open save
+    $('.new').on("click", function () {
+        db = [];
+        for (let i = 0; i < 100; i++) {
+            let rdb = [];
+            for (let j = 0; j < 26; j++) {
+                let cellAddress = String.fromCharCode(65 + j) + (i + 1);
+                let cellObject = {
+                    name: cellAddress,
+                    value: "",
+                    formula: "",
+                    children: [],
+                    parents: []
+                }
+                $(`.cell[rid=${i}][cid=${j}]`).html("");
+                rdb.push(cellObject);
+            }
+            db.push(rdb);
+        }
+        console.log(db);
 
+    })
+
+    $('.open').on("click", function () {
+        let filesPath = dialog.showSaveDialogSync();
+        let data = fs.readFileSync(filesPath);
+        db = JSON.parse(data);
+
+        for (let i = 0; i < 100; i++) {
+            for (let j = 0; j < 26; j++) {
+                let cellObject = db[i][j];
+                $(`.cell[rid=${i}][cid=${j}]`).text(cellObject.value);
+            }
+        }
+    })
+
+    $('.save').on("click", function () {
+        let filesPath = dialog.showSaveDialogSync();
+        let data = JSON.stringify(db);
+        fs.writeFileSync(filesPath, data);
+    })
+
+    //scroll ko adjust
     $(".content").on("scroll", function () {
         let left = $(this).scrollLeft();
         let top = $(this).scrollTop();
@@ -16,11 +59,30 @@ $("document").ready(function () {
         $(".left-col").css("left", left + "px");
     })
 
+    //height ko adjust side ki
     $(".cell").on("keyup", function () {
         let height = $(this).height();
         let rid = $(this).attr("rid");
         $(`.left-col-cell[cellId=${rid}]`).height(height);
     })
+
+    $('.file').on("click", function () {
+        $('.home-menu-options').removeClass('active');
+        $('.home').removeClass('active-menu-option');
+        $('.file').addClass('active-menu-option');
+        $('.file-menu-options').addClass('active');
+
+    })
+
+    $('.home').on("click", function () {
+        $('.file-menu-options').removeClass('active');
+        $('.home-menu-options').addClass('active');
+        $('.home').addClass('active-menu-option');
+        $('.file').removeClass('active-menu-option');
+    })
+
+
+    // ===============================top options code end===========================================
 
 
     $('.cell').on("click", function () {

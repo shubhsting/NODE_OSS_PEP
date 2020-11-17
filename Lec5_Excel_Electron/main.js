@@ -1,5 +1,6 @@
 const electron = require("electron");
-const ejs=require("ejs-electron")
+const ejs = require("ejs-electron");
+
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 function createWindow() {
@@ -7,7 +8,8 @@ function createWindow() {
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         }
     })
 

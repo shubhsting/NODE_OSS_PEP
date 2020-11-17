@@ -10,13 +10,53 @@
 
 <body>
     <div class="menu">
-<div class="file">File</div>
-<div class="home">Home</div>
+        <div class="file active-menu-option">File</div>
+        <div class="home">Home</div>
 
     </div>
     <div class="menu-options">
-<div class="file-menu-options active">File Menu Options</div>
-<div class="home-menu-options">Home Menu Options</div>
+        <div class="file-menu-options active">
+            <div class="new">New</div>
+            <div class="open">Open</div>
+            <div class="save">Save</div>
+        </div>
+        <div class="home-menu-options">
+            <div class="one">
+                <select name="" id="font-select">
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                </select>
+
+                <div class="font-styling">
+                    <button id="bold">B</button>
+                    <button id="italic">I</button>
+                    <button id="underline">U</button>
+                </div>
+            </div>
+           
+
+            <div class="two">
+                <select name="" id="font-size">
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                </select>
+                <div class="cell-color">
+                    <input type="color" name="" id="cell-font">
+                    <input type="color" name="" id="cell-background">
+                </div>
+            </div>
+
+            <div class="three">
+                <button id="left">L</button>
+                <button id="centre">C</button>
+                <button id="right">R</button>
+            </div>
+
+
+        </div>
     </div>
     <div class="formula-input">
         <input type="text" id="address" disabled>
@@ -24,7 +64,7 @@
     </div>
 
     <div class="content">
-        
+
 
 
 
@@ -40,8 +80,8 @@
 
 
             <%for(let j=0 ; j<100 ; j++) {%>
-                <div class="left-col-cell" cellId="<%= j%>"> <%=(j+1)%></div>
-                <%}%>
+            <div class="left-col-cell" cellId="<%= j%>"> <%=(j+1)%></div>
+            <%}%>
         </div>
 
 
@@ -62,10 +102,10 @@
                 <%}%>
             </div>
         <%}%>
-        </div>
             </div>
-            <div class="sheets">sheets</div>
-            <script src="./script.js"></script>
+        </div>
+        <div class="sheets">sheets</div>
+        <script src="./script.js"></script>
 </body>
 
 </html>

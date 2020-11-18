@@ -1,7 +1,6 @@
 {
   "name": "Lec5_Excel_Electron",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,5 +13,7 @@
     "ejs-electron": "^2.1.1",
     "electron": "^10.1.5",
     "jquery": "^3.5.1"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

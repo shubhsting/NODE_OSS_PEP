@@ -3,25 +3,14 @@ const $ = require("jquery");
 const dialog = require('electron').remote.dialog;
 let db;
 let lsc;
+let sheetsDB = [];
 $("document").ready(function () {
     init();
     // ====================top options code start========================
+
     //new open save
     $('.new').on("click", function () {
-        let objrowcol = db[100][26];
-        for (let i = 0; i <= Number(objrowcol.trow); i++) {
-            if (db[i][26].flag) {
-                for (let j = 0; j <= Number(objrowcol.tcol); j++) {
-                    if (db[100][j].flag) {
-                        let curr = $(`.cell[rid=${i}][cid=${j}]`);
-                        $(curr).html("");
-                        $(curr).css("background-color", "white");
-                        $(lsc).css("color", "black");
-                    }
-                }
-            }
-        }
-
+        emptyALLcellsfromdb();
         init();
 
     })
@@ -30,17 +19,7 @@ $("document").ready(function () {
         let filesPath = dialog.showSaveDialogSync();
         let data = fs.readFileSync(filesPath);
         db = JSON.parse(data);
-        let objrowcol = db[100][26];
-        for (let i = 0; i <= Number(objrowcol.trow); i++) {
-            if (db[i][26].flag) {
-                for (let j = 0; j <= Number(objrowcol.tcol); j++) {
-                    if (db[100][j].flag) {
-                        let cellObject = db[i][j];
-                        $(`.cell[rid=${i}][cid=${j}]`).text(cellObject.value);
-                    }
-                }
-            }
-        }
+        updateGUIfromcurrentdb();
     })
 
     $('.save').on("click", function () {
@@ -166,7 +145,6 @@ $("document").ready(function () {
     })
 
 
-
     $('.cell').on("click", function () {
         let rowId = Number($(this).attr("rid"));
         let colId = Number($(this).attr("cid"));
@@ -174,7 +152,6 @@ $("document").ready(function () {
         $("#address").val(currObj.name);
         $("#formula").val(currObj.formula);
     });
-
 
 
     $('.cell').on("blur", function () {
@@ -195,8 +172,6 @@ $("document").ready(function () {
         }
         console.log(db);
     });
-
-
 
 
     $('#formula').on('blur', function () {
@@ -226,6 +201,55 @@ $("document").ready(function () {
             console.log(db);
         }
     })
+
+
+
+
+
+
+    // =================================footer -sheets -section======================
+
+    $('.addsheet').on("click", function () {
+        emptyALLcellsfromdb();
+        $(".sheets .allsheets .sheet.active-sheet-option").removeClass('active-sheet-option');
+        let sheet = `<div class="sheet active-sheet-option" sid="${sheetsDB.length}">Sheet ${sheetsDB.length + 1}</div>`;
+
+        $(".allsheets").append(sheet);
+
+        $(".sheet.active-sheet-option").on("click", function () {
+            let isActive = $(this).hasClass("active-sheet-option");
+            if (!isActive) {
+                emptyALLcellsfromdb();
+                let index = Number($(this).attr("sid"));
+                db = sheetsDB[index];
+                $(".sheet.active-sheet-option").removeClass('active-sheet-option');
+                $(this).addClass("active-sheet-option");
+                updateGUIfromcurrentdb();
+                // console.log(isActive);
+            }
+        })
+        init();
+    })
+
+
+    $('.sheet').on("click", function () {
+        let isActive = $(this).hasClass("active-sheet-option");
+        if (!isActive) {
+            emptyALLcellsfromdb();
+            let index = Number($(this).attr("sid"));
+            db = sheetsDB[index];
+            $(".sheet.active-sheet-option").removeClass('active-sheet-option');
+            $(this).addClass("active-sheet-option");
+            updateGUIfromcurrentdb();
+            // console.log(isActive);
+        }
+    })
+
+
+    // ===========================================================================
+
+
+
 
 })
 
@@ -380,9 +404,39 @@ function updateAllDependentChildren(cellObject) {
     }
 }
 
+function updateGUIfromcurrentdb() {
+    let objrowcol = db[100][26];
+    for (let i = 0; i <= Number(objrowcol.trow); i++) {
+        if (db[i][26].flag) {
+            for (let j = 0; j <= Number(objrowcol.tcol); j++) {
+                if (db[100][j].flag) {
+                    let cellObject = db[i][j];
+                    $(`.cell[rid=${i}][cid=${j}]`).text(cellObject.value);
+                }
+            }
+        }
+    }
+}
+
+function emptyALLcellsfromdb() {
+    let objrowcol = db[100][26];
+    for (let i = 0; i <= Number(objrowcol.trow); i++) {
+        if (db[i][26].flag) {
+            for (let j = 0; j <= Number(objrowcol.tcol); j++) {
+                if (db[100][j].flag) {
+                    let curr = $(`.cell[rid=${i}][cid=${j}]`);
+                    $(curr).html("");
+                    $(curr).css("background-color", "white");
+                    $(lsc).css("color", "black");
+                }
+            }
+        }
+    }
+
+}
 
 function init() {
-    db = [];
+    let curdb = [];
     for (let i = 0; i < 100; i++) {
         let rdb = [];
         for (let j = 0; j < 26; j++) {
@@ -408,7 +462,7 @@ function init() {
             flag: false
         }
         rdb.push(rowend);
-        db.push(rdb);
+        curdb.push(rdb);
     }
 
     let finalrow = [];
@@ -424,7 +478,9 @@ function init() {
         tcol: "0"
     }
     finalrow.push(rowcolc);
-    db.push(finalrow);
-    console.log(db);
+    curdb.push(finalrow);
+    db = curdb;
+    sheetsDB.push(curdb);
+    console.log(sheetsDB);
 
 }

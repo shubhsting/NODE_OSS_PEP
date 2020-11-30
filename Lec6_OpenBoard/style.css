@@ -32,3 +32,9 @@ html {
   .tool img {
     height: 100%;
   }
+
+  .content{
+    width: 100%;
+    height: calc(100vh - 100px);
+  }
+ 

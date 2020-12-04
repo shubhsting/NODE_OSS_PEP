@@ -84,12 +84,17 @@ dnld.addEventListener("click", function (e) {
     let link = document.getElementById('canvas').toDataURL();
     let elem = document.createElement('a');
     elem.setAttribute("download", "canvas.png");
+    let flag = modediv.classList.contains("nightmode");
     elem.setAttribute("href", link);
     //     link.download = 'canvas.png'
     //     link.href = document.getElementById('canvas').toDataURL()
+
+    
     elem.click();
     setTimeout(function () {
         dnld.classList.remove("nightmode");
     }, 300);
+    
+
     // console.log("clicked");
 })

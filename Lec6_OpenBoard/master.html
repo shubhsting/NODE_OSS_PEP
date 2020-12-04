@@ -10,7 +10,7 @@
 
 <body>
     <div class="tools">
-        <div class="toolbox">
+        <div class="toolbox add-animation">
 
             <div class="tool nightmode" id="pencil">
                 <img src="./images/pencil.svg" alt="">
@@ -80,11 +80,18 @@
             </div>
         </div> -->
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"
+        integrity="sha512-Jr0UIR/Q8MUX+93zjDOhuDUKLqJZObtwpkLJQcR9qMaLgL0thet39IORuavUaZFkZ8a4ktrUsKPM9mf5LWMduA=="
+        crossorigin="anonymous"></script>
+    <script>
+        const socket = io.connect("http://localhost:3000");
+    </script>
     <script src="./mode.js"></script>
     <script src="./write.js"></script>
     <script src="./undo.js"></script>
     <script src="./writeevent.js"></script>
     <script src="./sticky.js"></script>
+    <script src="./socket.js"></script>
 </body>
 
 </html>

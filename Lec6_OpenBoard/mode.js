@@ -1,10 +1,17 @@
 let modediv = document.getElementById("mode");
 let bl = document.querySelector(".black");
+
+
+// ctx.fillStyle = "blue";
+// ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
 modediv.addEventListener("click", function () {
     let flag = modediv.classList.contains("nightmode");
     if (flag) {
         modediv.classList.remove("nightmode");
         document.body.style.backgroundColor = "white";
+        
         invertcolor();
         redraw();
         bl.style.backgroundColor = "black";

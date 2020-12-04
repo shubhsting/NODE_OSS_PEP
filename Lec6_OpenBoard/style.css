@@ -14,16 +14,24 @@ html {
   border-radius: 25px;
 }
 .tools {
-    background: aliceblue;
     height: 100px;
     display: flex;
     align-items: center;
   }
 
   .toolbox {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+    background: aliceblue;
+    margin-left: 100px;
+    margin-right: 100px;
+    
+    height: 100%;
+    align-items: center;
+    margin-top: 50px;
+    border-radius: 24px;
   }
   .tool {
     position: relative;
@@ -32,6 +40,7 @@ html {
   .tool img {
     height: 100%;
   }
+
 
   .content{
     width: 100%;
@@ -125,4 +134,20 @@ html {
   }
   #textarea{
     border:1px solid lightgray;
+  }
+
+  .add-animation{
+    animation-name: tool;
+    animation-duration: 0.5s;
+  }
+
+  @keyframes tool{
+    0%{
+      opacity: 0;
+      transform: scale(0);
+    }
+    100%{
+      opacity: 1;
+      transform: scale(1);
+    }
   }

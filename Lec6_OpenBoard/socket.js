@@ -1,8 +1,32 @@
-let stickyo = document.querySelector("#sticky");
+socket.on("md", function (point) {
+    //mousedown point
+    let myStrokeStyle = ctx.strokeStyle;
+    let myWidth = ctx.lineWidth;
 
+    ctx.strokeStyle = point.color;
+    ctx.lineWidth = point.w;
+    ctx.beginPath();
+    ctx.moveTo(point.x, point.y);
+    toolbox.classList.add("hide");
+    ctx.lineWidth = myWidth;
+    ctx.strokeStyle = myStrokeStyle;
+});
 
-stickyo.addEventListener("click", function (e) {
-    stickyo.classList.add("nightmode");
+socket.on("mm", function (point) {
+    // mousemove point
+    let myStrokeStyle = ctx.strokeStyle;
+    let myWidth = ctx.lineWidth;
+
+    ctx.strokeStyle = point.color;
+    ctx.lineWidth = point.w;
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+
+    ctx.lineWidth = myWidth;
+    ctx.strokeStyle = myStrokeStyle;
+});
+
+socket.on("staagya", function (stick) {
     let sticky = document.createElement("div");
     sticky.classList.add("sticky");
 
@@ -45,10 +69,6 @@ stickyo.addEventListener("click", function (e) {
     sticky.appendChild(stickybody);
     stickybody.appendChild(textarea);
 
-
-    document.body.appendChild(sticky);
-
-
     let initialX;
     let initialY;
     let isStickyHold = false;
@@ -88,11 +108,5 @@ stickyo.addEventListener("click", function (e) {
         sticky.remove();
     })
 
-    setTimeout(function () {
-        stickyo.classList.remove("nightmode");
-    }, 300);
-
-
-    socket.emit("stickyaagya", sticky);
-
+    document.body.appendChild(sticky);
 })

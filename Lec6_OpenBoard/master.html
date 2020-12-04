@@ -7,55 +7,84 @@
     <title>Document</title>
 </head>
 <link rel="stylesheet" href="style.css">
+
 <body>
-<div class="tools">
-    <div class="toolbox">
+    <div class="tools">
+        <div class="toolbox">
 
-        <div class="tool" id="pencil">
-            <img src="./images/pencil.svg" alt="">
-        </div>
+            <div class="tool nightmode" id="pencil">
+                <img src="./images/pencil.svg" alt="">
+                <div class="tool-options hide" id="pencil-options">
+                    <input type="range" name="" id="pencilSize" value="1" min="1" max="40">
+                    <div class="pencil-colors">
+                        <div class="red"></div>
+                        <div class="yellow"></div>
+                        <div class="blue"></div>
+                        <div class="black"></div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="tool" id="eraser">
-            <img src="./images/eraser.png" alt="">
-        </div>
-
-
-        <div class="tool" id="sticky">
-            <img src="./images/pad.svg" alt="">
-        </div>
-
-        <div class="tool" id="upload">
-            <img src="./images/upload.png" alt="">
-        </div>
-
-        <div class="tool" id="download">
-            <img src="./images/download.webp" alt="">
-        </div>
-
-        <div class="tool" id="undo">
-            <img src="./images/undo.png" alt="">
-        </div>
-
-        <div class="tool" id="redo">
-            <img src="./images/Redo.svg" alt="">
-        </div>
+            <div class="tool" id="eraser">
+                <img src="./images/eraser.png" alt="">
+                <div class="tool-options hide" id="eraser-options">
+                    <input type="range" name="" id="eraserSize" value="1" min="1" max="40">
+                </div>
+            </div>
 
 
-        <div class="tool" id="clearall">
-            <img src="./images/clearall.png" alt="">
-        </div>
+            <div class="tool" id="sticky">
+                <img src="./images/pad.svg" alt="">
+            </div>
 
-        <div class="tool" id="mode">
-            <img src="./images/daymode.png" alt="">
+            <div class="tool" id="upload">
+                <img src="./images/upload.png" alt="">
+            </div>
+
+            <div class="tool" id="download">
+                <img src="./images/download.webp" alt="">
+            </div>
+
+            <div class="tool" id="undo">
+                <img src="./images/undo.png" alt="">
+            </div>
+
+            <div class="tool" id="redo">
+                <img src="./images/Redo.svg" alt="">
+            </div>
+
+
+            <div class="tool" id="clearall">
+                <img src="./images/clearall.png" alt="">
+            </div>
+
+            <div class="tool" id="mode">
+                <img src="./images/daymode.png" alt="">
+            </div>
         </div>
     </div>
-</div>
-<div class="content">
-    <canvas id="canvas"></canvas>
-</div>
-<script src="./mode.js"></script>
-<script src="./write.js"></script>
-<script src="./undo.js"></script>
+    <div class="content">
+        <canvas id="canvas"></canvas>
+
+        <!-- <div class="sticky">
+            <div class="sticky-header">
+                <div class="minimise">
+                    <img src="./images/minimise.png" alt="" srcset="" id="imgo">
+                </div>
+                <div class="close">
+                    <img src="./images/close.png" alt="" srcset="" id="imgo">
+                </div>
+            </div>
+            <div class="sticky-body">
+                <textarea name="" id="textarea" cols="30" rows="10"></textarea>
+            </div>
+        </div> -->
+    </div>
+    <script src="./mode.js"></script>
+    <script src="./write.js"></script>
+    <script src="./undo.js"></script>
+    <script src="./writeevent.js"></script>
+    <script src="./sticky.js"></script>
 </body>
 
 </html>

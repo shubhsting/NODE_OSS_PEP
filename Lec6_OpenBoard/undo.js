@@ -1,6 +1,7 @@
 let undos = document.getElementById("undo");
 let redost = document.getElementById("redo");
 let clear = document.getElementById("clearall");
+let dnld = document.getElementById("download");
 let redo = [];
 
 // ============================ undo function ========================
@@ -43,16 +44,18 @@ redost.addEventListener("click", function (e) {
 })
 
 
-function redraw(){
+function redraw() {
     for (let i = 0; i < undo.length; i++) {
         let pt = undo[i];
         if (pt.id == "md") {
-            ctx.strokeStyle=pt.color;
+            ctx.strokeStyle = pt.color;
+            ctx.lineWidth = pt.w;
             ctx.beginPath();
             ctx.moveTo(pt.x, pt.y);
         }
         else {
-            ctx.strokeStyle=pt.color;
+            ctx.strokeStyle = pt.color;
+            ctx.lineWidth = pt.w;
             ctx.lineTo(pt.x, pt.y);
             ctx.stroke();
         }
@@ -68,4 +71,25 @@ clear.addEventListener("click", function (e) {
     }, 300);
     undo = [];
     redo = [];
+})
+
+
+
+
+// ====================================Download button========================
+
+
+dnld.addEventListener("click", function (e) {
+    dnld.classList.add("nightmode");
+    let link = document.getElementById('canvas').toDataURL();
+    let elem = document.createElement('a');
+    elem.setAttribute("download", "canvas.png");
+    elem.setAttribute("href", link);
+    //     link.download = 'canvas.png'
+    //     link.href = document.getElementById('canvas').toDataURL()
+    elem.click();
+    setTimeout(function () {
+        dnld.classList.remove("nightmode");
+    }, 300);
+    // console.log("clicked");
 })

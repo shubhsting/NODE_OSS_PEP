@@ -16,7 +16,8 @@ canvas.addEventListener("mousedown", function (e) {
         id: "md",
         x: x,
         y: y,
-        color:ctx.strokeStyle
+        color: ctx.strokeStyle,
+        w: ctx.lineWidth
     }
     undo.push(point);
 })
@@ -30,7 +31,8 @@ canvas.addEventListener("mousemove", function (e) {
             id: "mm",
             x: x,
             y: y,
-            color:ctx.strokeStyle
+            color: ctx.strokeStyle,
+            w: ctx.lineWidth
         }
         undo.push(point);
         ctx.stroke();
@@ -39,12 +41,4 @@ canvas.addEventListener("mousemove", function (e) {
 
 canvas.addEventListener("mouseup", function (e) {
     mousedownflag = false;
-    // let x = e.clientX;
-    // let y = e.clientY - topOffSet;
-    // let point = {
-    //     id: "mu",
-    //     x: x,
-    //     y: y
-    // }
-    // undo.push(point);
 })

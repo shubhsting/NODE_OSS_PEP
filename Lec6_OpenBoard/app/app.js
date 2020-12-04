@@ -26,6 +26,11 @@ io.on("connection", function (socket) {
     socket.on("stickyaagya", function (data) {
         socket.broadcast.emit("staagya", data);
     })
+
+
+    socket.on("clearall", function (data) {
+        socket.broadcast.emit("clrall", data);
+    })
 });
 
 http.listen(3000, () => {

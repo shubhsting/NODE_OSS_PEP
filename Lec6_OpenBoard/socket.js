@@ -8,6 +8,7 @@ socket.on("md", function (point) {
     ctx.beginPath();
     ctx.moveTo(point.x, point.y);
     toolbox.classList.add("hide");
+    undo.push(point);
     ctx.lineWidth = myWidth;
     ctx.strokeStyle = myStrokeStyle;
 });
@@ -21,7 +22,7 @@ socket.on("mm", function (point) {
     ctx.lineWidth = point.w;
     ctx.lineTo(point.x, point.y);
     ctx.stroke();
-
+    undo.push(point);
     ctx.lineWidth = myWidth;
     ctx.strokeStyle = myStrokeStyle;
 });
@@ -109,4 +110,13 @@ socket.on("staagya", function (stick) {
     })
 
     document.body.appendChild(sticky);
+})
+
+
+
+
+socket.on("clrall", function (data) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    undo = [];
+    redo = [];
 })

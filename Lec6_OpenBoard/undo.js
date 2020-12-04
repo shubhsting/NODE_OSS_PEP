@@ -71,6 +71,7 @@ clear.addEventListener("click", function (e) {
     }, 300);
     undo = [];
     redo = [];
+    socket.emit("clearall", undo);
 })
 
 
@@ -89,12 +90,12 @@ dnld.addEventListener("click", function (e) {
     //     link.download = 'canvas.png'
     //     link.href = document.getElementById('canvas').toDataURL()
 
-    
+
     elem.click();
     setTimeout(function () {
         dnld.classList.remove("nightmode");
     }, 300);
-    
+
 
     // console.log("clicked");
 })

@@ -84,7 +84,6 @@ black.addEventListener("click", function (e) {
 
 //===========================================size change================================
 
-
 let pencilWidth = 1;
 let eraserWidth = 1;
 pencilSize.addEventListener("change", function (e) {

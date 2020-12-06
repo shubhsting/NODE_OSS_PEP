@@ -12,8 +12,12 @@ const io = require("socket.io")(http, {
 io.on("connection", function (socket) {
     console.log(`${socket.id} connected`);
 
-
-
+    // socket.on("imagecome", function (data) {
+    //     socket.broadcast.emit("imgcome", data);
+    // })
+    socket.on("modechange", function (data) {
+        socket.broadcast.emit("mc", data);
+    })
     socket.on("mousedown", function (data) {
         socket.broadcast.emit("md", data);
     });

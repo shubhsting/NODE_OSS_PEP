@@ -1,17 +1,18 @@
 let modediv = document.getElementById("mode");
 let bl = document.querySelector(".black");
-
+let tbx = document.querySelector(".toolbox");
 
 // ctx.fillStyle = "blue";
 // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 
 modediv.addEventListener("click", function () {
+    socket.emit("modechange", tbx);
     let flag = modediv.classList.contains("nightmode");
     if (flag) {
         modediv.classList.remove("nightmode");
         document.body.style.backgroundColor = "white";
-        
+        tbx.style.border = "none";
         invertcolor();
         redraw();
         bl.style.backgroundColor = "black";
@@ -30,6 +31,7 @@ modediv.addEventListener("click", function () {
     else {
         modediv.classList.add("nightmode");
         document.body.style.backgroundColor = "black";
+        tbx.style.border = "thick solid #0000FF";
         invertcolor();
         redraw();
 

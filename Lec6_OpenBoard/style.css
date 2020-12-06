@@ -18,13 +18,16 @@ html {
     display: flex;
     align-items: center;
   }
-
+  .photo{
+    width: 100%;
+    object-fit: contain;
+  }
   .toolbox {
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    background: aliceblue;
+    /* background: aliceblue; */
     margin-left: 100px;
     margin-right: 100px;
     

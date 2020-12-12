@@ -1,0 +1,64 @@
+.cwindow{
+    margin: auto;
+    height: 650px;
+    width: 500px;
+    background: burlywood;
+}
+.content{
+    height: 90%;
+    background-color: lime;
+    overflow: auto;
+}
+.leftchat{
+    background: red;
+    height: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.joinedchat{
+    background: green;
+    height: 20px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+.left{
+   
+    color: white;
+    min-width: 111px;
+    height: 79px;
+    max-width: 306px;
+    background: gray;
+    border-radius: 20px;
+    margin-left: 0px;
+    margin-top: 20px;
+}
+.right{
+    min-width: 111px;
+    height: 79px;
+    max-width: 306px;
+    background: gray;
+    border-radius: 20px;
+    margin-right: 0px;
+    margin-left: 192px;
+    margin-top: 20px;
+    color: white;
+}
+.bottom{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.message{
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+.name{
+    display: flex;
+    justify-content: center;
+}
